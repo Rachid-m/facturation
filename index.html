@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul de Facture en Francs CFA</title>
+    <style>
+        /* Styles CSS ici */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .result-form {
+            text-align: center;
+        }
+
+        .result-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calcul de Facture en Francs CFA</h1>
+    <div class="container">
+        <label for="total_ht">Montant Total HT (XOF):</label>
+        <input type="number" id="total_ht" step="1"><br>
+
+        <label for="remise">Remise (%):</label>
+        <input type="number" id="remise" step="1"><br>
+
+        <label for="tva">TVA (%):</label>
+        <input type="number" id="tva" step="1"><br>
+
+        <label for="acompte">Acompte (%):</label>
+        <input type="number" id="acompte" step="1"><br>
+
+        <button onclick="calculerFacture()">Calculer</button>
+    </div>
+
+    <div class="result-form">
+        <h2>Résultat du Calcul</h2>
+        <div class="result-container">
+            <p id="montant_remise"></p>
+            <p id="montant_apres_remise"></p>
+            <p id="montant_tva"></p>
+            <p id="montant_net_ttc"></p>
+            <p id="montant_acompte"></p>
+            <p id="montant_reliquat"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculerFacture() {
+            // Récupérer les valeurs saisies par l'utilisateur
+            var totalHtXOF = parseInt(document.getElementById("total_ht").value);
+            var remise = parseInt(document.getElementById("remise").value);
+            var tva = parseInt(document.getElementById("tva").value);
+            var acompte = parseInt(document.getElementById("acompte").value);
+
+            // Effectuer les calculs
+            var montantRemiseXOF = totalHtXOF * (remise / 100);
+            var montantApresRemiseXOF = totalHtXOF - montantRemiseXOF;
+            var montantTvaXOF = montantApresRemiseXOF * (tva / 100);
+            var montantNetTtcXOF = montantApresRemiseXOF + montantTvaXOF;
+            var montantAcompteXOF = montantNetTtcXOF * (acompte / 100);
+            var montantReliquatXOF = montantNetTtcXOF - montantAcompteXOF;
+
+            // Afficher les résultats
+            document.getElementById("montant_remise").textContent = "Montant de la Remise: " + montantRemiseXOF.toFixed(0) + " XOF";
+            document.getElementById("montant_apres_remise").textContent = "Montant Total HT Après Remise: " + montantApresRemiseXOF.toFixed(0) + " XOF";
+            document.getElementById("montant_tva").textContent = "Montant de la TVA: " + montantTvaXOF.toFixed(0) + " XOF";
+            document.getElementById("montant_net_ttc").textContent = "Montant Net TTC: " + montantNetTtcXOF.toFixed(0) + " XOF";
+            document.getElementById("montant_acompte").textContent = "Acompte: " + montantAcompteXOF.toFixed(0) + " XOF";
+            document.getElementById("montant_reliquat").textContent = "Reliquat: " + montantReliquatXOF.toFixed(0) + " XOF";
+        }
+    </script>
+</body>
+</html>
